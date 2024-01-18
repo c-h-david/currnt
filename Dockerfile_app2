@@ -1,0 +1,70 @@
+#*******************************************************************************
+#Dockerfile_app2
+#*******************************************************************************
+
+#Purpose:
+#This file describes all the commands needed to assemble an image for app2 and
+#is used by the Docker software.
+#Author:
+#Cedric H. David, 2018-2024
+#Manu Tom, 2023-2024
+
+#*******************************************************************************
+#Base image
+#*******************************************************************************
+FROM debian:buster-slim
+
+
+#*******************************************************************************
+#Operating System Requirements
+#*******************************************************************************
+RUN apt-get -y update && \
+    apt-get install -y python3-pip && \
+    apt-get install -y --no-install-recommends cmake autoconf automake libtool && \
+    rm -rf /var/lib/apt/lists/*
+
+
+#*******************************************************************************
+#Python requirements
+#*******************************************************************************
+RUN pip3 install --no-cache-dir awslambdaric
+RUN pip3 install --no-cache-dir boto3
+
+
+#*******************************************************************************
+#AWS Lambda specific directories
+#*******************************************************************************
+ARG LAMBDA_TASK_ROOT="/var/task"
+RUN mkdir -p ${LAMBDA_TASK_ROOT}
+WORKDIR ${LAMBDA_TASK_ROOT}
+
+
+#*******************************************************************************
+#AWS Lambda Runtime Interface Emulator (RIE)
+#*******************************************************************************
+ADD https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie /usr/bin/aws-lambda-rie
+RUN chmod a+x /usr/bin/aws-lambda-rie
+COPY entry_script.sh /entry_script.sh
+
+
+#*******************************************************************************
+#Copy sample file into Docker image (to be copied to s3 bucket)
+#*******************************************************************************
+COPY src/lambda_function_app2.py ${LAMBDA_TASK_ROOT}
+
+
+#*******************************************************************************
+#Default parameters, cannot be overridden from Docker CLI when container running
+#*******************************************************************************
+ENTRYPOINT [ "/entry_script.sh" ]
+
+
+#*******************************************************************************
+#Default parameters, can be overridden from Docker CLI when container running
+#*******************************************************************************
+CMD [ "lambda_function_app2.lambda_handler" ]
+
+
+#*******************************************************************************
+#End
+#*******************************************************************************
