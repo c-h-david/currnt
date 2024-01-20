@@ -40,4 +40,5 @@ Try it out:
 ```
 curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"LSM":"VIC"}'
 curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"S3_BUCKET_NAME":"yourBucketName", "FILENAME_UPLOAD":"lambda_function_app2.py", "FILENAME_DOWNLOAD":"yourFilename.py"}'
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"S3_BUCKET_NAME":"yourBucketName", "FILENAME_UPLOAD":"lambda_function_app3.py", "FILENAME_DOWNLOAD":"yourFilename.py", "FILE_URL":"https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"}'
 ```
