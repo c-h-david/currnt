@@ -1,12 +1,12 @@
 #*******************************************************************************
-#Dockerfile_app2
+#Dockerfile_app4
 #*******************************************************************************
 
 #Purpose:
-#This file describes all the commands needed to assemble an image for app2 and
+#This file describes all the commands needed to assemble an image for app4 and
 #is used by the Docker software.
 #Author:
-#Manu Tom, Cedric H. David, 2018-2024
+#ManuTom, Cedric H. David, 2018-2024
 
 
 #*******************************************************************************
@@ -27,7 +27,7 @@ RUN apt-get -y update && \
 #*******************************************************************************
 #Python requirements
 #*******************************************************************************
-RUN pip3 install --no-cache-dir awslambdaric boto3
+RUN pip3 install --no-cache-dir awslambdaric earthaccess
 
 
 #*******************************************************************************
@@ -49,8 +49,7 @@ COPY entry_script.sh /entry_script.sh
 #*******************************************************************************
 #Copy files into Docker image
 #*******************************************************************************
-COPY src/lambda_function_app2.py ${LAMBDA_TASK_ROOT}
-COPY inputs.txt ${LAMBDA_TASK_ROOT}
+COPY src/lambda_function_app4.py ${LAMBDA_TASK_ROOT}
 
 
 #*******************************************************************************
@@ -62,7 +61,7 @@ ENTRYPOINT [ "/entry_script.sh" ]
 #*******************************************************************************
 #Default parameters, can be overridden from Docker CLI when container running
 #*******************************************************************************
-CMD [ "lambda_function_app2.lambda_handler" ]
+CMD [ "lambda_function_app4.lambda_handler" ]
 
 
 #*******************************************************************************

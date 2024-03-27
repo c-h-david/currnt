@@ -1,0 +1,6 @@
+PFAF2 74
+LSM VIC
+LSMres 3H
+MONTH 2000-01
+S3_BUCKET_NAME yourBucketName
+
